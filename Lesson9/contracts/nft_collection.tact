@@ -98,11 +98,10 @@ contract NftCollection {
         let storageFee: Int = minTonsForStorage - min(tonBalanceBeforeMsg, minTonsForStorage);
         msgValue = msgValue - (storageFee + gasConsumption);
 
-        let name: String = ctx.param("name");
-        let description: String = ctx.param("description");
-        let imageUrl: String = ctx.param("imageUrl");
+          let (name, description, imageUrl) = decodeMetadata(ctx.custom_payload);
 
-        self.mint(ctx.sender, msgValue, name, description, imageUrl);
+    self.mint(ctx.sender, msgValue, name, description, imageUrl);
+
 
         emit(LogEventMintRecord{ minter: sender(), item_id: self.next_item_index, generate_number: nativeRandom() }.toCell());
     }
